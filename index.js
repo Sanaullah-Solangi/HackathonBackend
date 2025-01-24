@@ -44,6 +44,7 @@ app.get("/", (req, res) => {
   res.send("Main Page is called");
 });
 app.use("/api", routes);
-app.listen(PORT, () =>
-  console.log(chalk.bgBlue(`App is running on => ${PORT} PORT`))
-);
+// app.listen(PORT, () =>
+//   console.log(chalk.bgBlue(`App is running on => ${PORT} PORT`))
+// );
+export default (req, res) => app(req, res);
