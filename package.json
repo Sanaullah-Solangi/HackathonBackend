@@ -7,6 +7,7 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "author": "Sanaullah",
   "license": "ISC",
   "description": "An API backend for SMIT hackathon project with authentication and essential features.",
