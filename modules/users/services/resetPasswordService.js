@@ -2,7 +2,7 @@ import chalk from "chalk";
 import {
   generateResetPasswordHTML,
   sendUserResponse,
-  validateToken,
+  validateEmailByToken,
 } from "../../../shared/helpers/index.js";
 import { StatusCodes } from "../../../shared/constants/index.js";
 import {
@@ -14,7 +14,7 @@ import { getUserByEmail } from "../db/index.js";
 import { emailSchema } from "../schemas/uesrSchema.js";
 const resetPasswordService = async (token, nonce) => {
   try {
-    const { email } = validateToken(token);
+    const { email } = validateEmailByToken(token);
     let { value, error } = emailSchema.validate(email);
     console.log("EMAIL IN SERVICE VALUE =>", value);
 

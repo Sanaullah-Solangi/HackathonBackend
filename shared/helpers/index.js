@@ -21,6 +21,10 @@ const generateToken = (userData) => {
   var token = jwt.sign({ ...userData }, ENV.SECRET_KEY);
   return token;
 };
+const validateEmailByToken = (token) => {
+  const decodedToken = jwt.verify(token, ENV.SECRET_KEY);
+  return decodedToken;
+};
 
 const validateToken = (allowedRoles) => {
   return async (req, res, next) => {
@@ -362,6 +366,7 @@ export {
   sendUserResponse,
   generateToken,
   validateToken,
+  validateEmailByToken,
   sendMailToUser,
   generateResetPasswordHTML,
 };
