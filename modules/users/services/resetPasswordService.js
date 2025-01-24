@@ -15,7 +15,7 @@ import { emailSchema } from "../schemas/uesrSchema.js";
 const resetPasswordService = async (token, nonce) => {
   try {
     const { email } = validateEmailByToken(token);
-    let { value, error } = emailSchema.validate(email);
+    let { value, error } = emailSchema.validate({ email });
     console.log("EMAIL IN SERVICE VALUE =>", value);
 
     error = error?.details[0]?.message;
