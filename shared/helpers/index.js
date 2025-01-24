@@ -109,7 +109,7 @@ const sendMailToUser = async (email, token) => {
       html: `
         <p>Hello,</p>
         <p>We received a request to reset your password. If this was you, click the link below to reset your password:</p>
-       http://localhost:4002/api/user/reset-password?token=${token}" 
+      ${ENV.PROD_URL}/api/user/reset-password?token=${token}" 
         <p>If you did not request this, you can safely ignore this email. Your password will remain secure.</p>
         <p>Thank you,</p>
         <p><b>HiStore Team</b></p>
