@@ -66,6 +66,7 @@ export const getUserByEmail = (email) =>
   UserModel.findOne({ email })
     .then((user) => (user ? user.toObject() : null))
     .catch((err) => {
+      console.log("ERROR IN DB =>", err);
       throw err;
     });
 
