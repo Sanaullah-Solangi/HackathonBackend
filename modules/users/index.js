@@ -22,10 +22,6 @@ router.post("/login-user", loginUserController);
 router.put("/update-profile", updateProfileController);
 router.post("/register-user", registerUserController);
 router.get("/reset-password", resetPasswordController);
-router.post(
-  "/update-password",
-  validateToken(["user"]),
-  updatePasswordController
-);
+router.post("/update-password", updatePasswordController);
 router.post("/delete-user", validateToken(["admin"]), deleteUserController);
 export default router;
