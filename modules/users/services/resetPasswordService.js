@@ -28,10 +28,9 @@ const resetPasswordService = async (token, nonce) => {
       console.log(chalk.bgBlue.red("RESET JOI ERR =>", error));
       throw response;
     }
-    console.log("EMAIL IN SERVICE =>", email);
     console.log("EMAIL IN SERVICE VALUE =>", value.email);
 
-    const isUser = getUserByEmail(email);
+    const isUser = getUserByEmail(value.email);
     if (!isUser) {
       const response = sendUserResponse(
         StatusCodes.NOT_FOUND,
