@@ -62,14 +62,24 @@ export const getUserById = (id) =>
       console.log("INDEX DB =>", err);
       throw err;
     });
-export const getUserByEmail = (email) =>
-  console.log("EMAIL IN GETUSERBYEMAIL =>", email);
-UserModel.findOne({ email })
-  .then((user) => (user ? user.toObject() : null))
-  .catch((err) => {
-    throw err;
-  });
+export const getUserByEmail = (email) => {
+  console.log("Searching for user with email:", email); // Log to track the email being searched
 
+  return UserModel.findOne({ email })
+    .then((user) => {
+      if (user) {
+        console.log("User found:", user); // Log if user is found
+        return user.toObject();
+      } else {
+        console.log("User not found for email:", email); // Log if no user is found
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.error("Error while fetching user:", err); // Log error if any
+      throw err;
+    });
+};
 export const updateUserByEmail = async (email, data) => {
   try {
     const updatedUser = await UserModel.findOneAndUpdate(email, data, {
