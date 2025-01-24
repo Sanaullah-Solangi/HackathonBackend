@@ -12,7 +12,7 @@ const resetPasswordController = async (req, res) => {
     console.log(chalk.bgBlue.red("RESET CONTRO RES =>", response));
     res.send(response.data);
   } catch (error) {
-    console.log(chalk.bgBlue.red("RESET CONTRO ERR =>", error));
+    console.log(chalk.bgBlue.red("RESET CONTRO ERR =>", JSON.stringify(error)));
     res.status(404).send(error);
   }
 };

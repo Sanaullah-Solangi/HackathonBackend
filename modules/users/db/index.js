@@ -63,11 +63,12 @@ export const getUserById = (id) =>
       throw err;
     });
 export const getUserByEmail = (email) =>
-  UserModel.findOne({ email })
-    .then((user) => (user ? user.toObject() : null))
-    .catch((err) => {
-      throw err;
-    });
+  console.log("EMAIL IN GETUSERBYEMAIL =>", email);
+UserModel.findOne({ email })
+  .then((user) => (user ? user.toObject() : null))
+  .catch((err) => {
+    throw err;
+  });
 
 export const updateUserByEmail = async (email, data) => {
   try {

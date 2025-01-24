@@ -28,7 +28,10 @@ const resetPasswordService = async (token, nonce) => {
       console.log(chalk.bgBlue.red("RESET JOI ERR =>", error));
       throw response;
     }
-    const isUser = await getUserByEmail(email);
+    console.log("EMAIL IN SERVICE =>", email);
+    console.log("EMAIL IN SERVICE VALUE =>", value.email);
+
+    const isUser = getUserByEmail(email);
     if (!isUser) {
       const response = sendUserResponse(
         StatusCodes.NOT_FOUND,
@@ -36,7 +39,9 @@ const resetPasswordService = async (token, nonce) => {
         true,
         USER_NOT_FOUND
       );
-      console.log(chalk.bgBlue.red("RESET DB ERR =>", response));
+      console.log(
+        chalk.bgBlue.red("RESET DB ERR =>", JSON.stringify(response))
+      );
 
       throw response;
     }
@@ -49,7 +54,9 @@ const resetPasswordService = async (token, nonce) => {
     );
     return response;
   } catch (err) {
-    console.log(chalk.bgGray.black("RESET SERVICE ERR =>", err));
+    console.log(
+      chalk.bgGray.black("RESET SERVICE ERR =>", JSON.stringify(err))
+    );
 
     throw err;
   }
