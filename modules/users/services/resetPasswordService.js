@@ -8,6 +8,7 @@ import { StatusCodes } from "../../../shared/constants/index.js";
 import {
   RESET_PASSWORD_PAGE_SUCCESS,
   INVALID_CREDENTIALS,
+  USER_NOT_FOUND,
 } from "../../../shared/constants/messages/users.js";
 import { getUserByEmail } from "../db/index.js";
 import { emailSchema } from "../schemas/uesrSchema.js";
