@@ -16,6 +16,8 @@ const resetPasswordService = async (token, nonce) => {
   try {
     const { email } = validateToken(token);
     let { value, error } = emailSchema.validate(email);
+    console.log("EMAIL IN SERVICE VALUE =>", value);
+
     error = error?.details[0]?.message;
     if (error) {
       const response = sendUserResponse(
@@ -28,7 +30,6 @@ const resetPasswordService = async (token, nonce) => {
       console.log(chalk.bgBlue.red("RESET JOI ERR =>", error));
       throw response;
     }
-    console.log("EMAIL IN SERVICE VALUE =>", value.email);
 
     const isUser = getUserByEmail(value.email);
     if (!isUser) {
