@@ -11,7 +11,7 @@ import {
   USER_NOT_FOUND,
 } from "../../../shared/constants/messages/users.js";
 import { getUserByEmail } from "../db/index.js";
-import { emailSchema } from "../schemas/uesrSchema.js";
+import { emailSchema, passwordSchema } from "../schemas/uesrSchema.js";
 const resetPasswordService = async (token, nonce) => {
   try {
     const { email } = validateEmailByToken(token);
@@ -45,7 +45,7 @@ const resetPasswordService = async (token, nonce) => {
 
       throw response;
     }
-    const html = generateResetPasswordHTML(nonce, email);
+    const html = generateResetPasswordHTML(nonce, email, passwordSchema);
     const response = sendUserResponse(
       StatusCodes.OK,
       html,

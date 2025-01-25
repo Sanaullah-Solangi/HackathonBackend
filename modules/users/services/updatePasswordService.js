@@ -1,6 +1,4 @@
 import chalk from "chalk";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
 import {
   hashPassword,
   sendUserResponse,
@@ -15,18 +13,10 @@ const updatePasswordService = async (password, email) => {
       { email },
       { password: hashedPassword }
     );
-    const currentLocation = fileURLToPath(import.meta.url);
-    const rootPath = dirname(join(currentLocation, "../../..")); // Root folder tak path
-    const publicFolder = join(rootPath, "public"); // Public folder path
-    const confirmationPagePath = join(publicFolder, "confirmation-page.html"); // Final file path
-
-    console.log("CURRENT LOCATION =>", currentLocation);
-    console.log("PUBLIC FOLDER =>", publicFolder);
-    console.log("CONFIRMATION PAGE =>", confirmationPagePath);
     if (updatedUser) {
       const response = sendUserResponse(
         StatusCodes.OK,
-        "http://localhost:4002/confirmation-page.html",
+        "hackathon-backend-olive.vercel.app/confirmation-page.html",
         false,
         USER_UPDATE_SUCCESS
       );

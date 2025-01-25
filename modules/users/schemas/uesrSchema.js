@@ -6,13 +6,13 @@ const emailSchema = joi.object({
 
 const loginUserSchema = joi.object({
   email: joi.string().required().email(),
-  password: joi.string().required().min(3).max(10),
+  password: joi.string().required().min(3).max(8),
 });
 
 const registerUserSchema = joi.object({
   username: joi.string().required(),
   email: joi.string().required().email(),
-  password: joi.string().alphanum().required().min(3).max(6),
+  password: joi.string().alphanum().required().min(3).max(8),
 });
 
 const updateProfileSchema = joi.object({
@@ -43,6 +43,7 @@ const updateProfileSchema = joi.object({
 
 export {
   emailSchema,
+  passwordSchema,
   loginUserSchema,
   registerUserSchema,
   updateProfileSchema,
