@@ -12,8 +12,12 @@
       "dest": "/index.js"
     },
     {
+      "src": "/confirmation-page.html",
+      "dest": "/public/confirmation-page.html"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/public/$1"
+      "dest": "/index.js"
     }
   ]
 }

@@ -258,7 +258,7 @@ const generateResetPasswordHTML = (nonce, email) => {
 
             const updatePassword = async () => {
               try {
-   event.preventDefault();
+             event.preventDefault();
               console.log("Iam called")
               const value = password.value;
               let response = await fetch(
@@ -322,8 +322,6 @@ const generateResetPasswordHTML = (nonce, email) => {
                     maxlength="20"
                     title="Password must contain at least one number, one uppercase and lowercase letter, and at least 3 or more characters."
                   >
-
-
                     <button type="button" class="toggle-password" aria-label="Toggle password visibility">
                         👁️
                     </button>
