@@ -257,11 +257,12 @@ const generateResetPasswordHTML = (nonce, email) => {
               });
 
             const updatePassword = async () => {
-              event.preventDefault();
+              try {
+   event.preventDefault();
               console.log("Iam called")
               const value = password.value;
               let response = await fetch(
-                " https://hackathon-backend-olive.vercel.app/api/user/update-password",
+                "https://hackathon-backend-olive.vercel.app/api/user/update-password",
                 {
                   method: "POST",
                   headers: {
@@ -280,6 +281,10 @@ const generateResetPasswordHTML = (nonce, email) => {
                   console.log("Error updating password.");
                 }
                 password.value=""
+              } catch (error) {
+                console.log("ERROR OF RESET PAEG",error)
+              }
+             
               };
 
             document

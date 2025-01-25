@@ -41,6 +41,7 @@ mongoose
     console.log(chalk.bgRed(MONGO_DB_CONNECTION_FAILED));
   });
 app.get("/", (req, res) => {
+  console.log(`Request URL: ${req.url}`);
   res.send("Main Page is called");
 });
 app.use("/api", routes);
