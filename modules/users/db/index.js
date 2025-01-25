@@ -83,9 +83,8 @@ export const updateUserByEmail = async (email, data) => {
     const response = sendUserResponse(
       StatusCodes.NOT_FOUND,
       null,
-      JSON.stringify(error.message),
-      NOT_FOUND,
-      USER_UPDATE_FAILED
+      true,
+      JSON.stringify(error.message)
     );
     throw response;
   }

@@ -31,7 +31,7 @@ const resetPasswordService = async (token, nonce) => {
       throw response;
     }
 
-    const isUser = await getUserByEmail(value.email);
+    const isUser = await getUserByEmail(email);
     if (!isUser) {
       const response = sendUserResponse(
         StatusCodes.NOT_FOUND,
