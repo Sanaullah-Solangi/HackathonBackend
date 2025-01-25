@@ -267,6 +267,7 @@ const generateResetPasswordHTML = (nonce, email) => {
               });
 
             const updatePassword = async () => {
+              event.preventDefault();
               console.log("Iam called")
               const value = password.value;
               let response = await fetch(
@@ -313,20 +314,20 @@ const generateResetPasswordHTML = (nonce, email) => {
       <p class="email-text">for <strong><i id="email">${email}</i></strong></p>
 `;
   const FORM = `
-         <form action="/submit-reset" method="POST" id="resetPasswordForm">
+         <form method="POST" id="resetPasswordForm">
             <div class="form-group">
                 <label for="password">New password</label>
                 <div class="password-input">
-                    <input 
-                      type="password" 
-                      id="password" 
-                      name="password" 
-                      required 
-                      minlength="3" 
-                      maxlength="8"
-                      pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{20,}$/"
-                      title="Password must contain at least one number, one uppercase and lowercase letter, and at least 3 or more characters."
+                   <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    required 
+                    minlength="3" 
+                    maxlength="20"
+                    title="Password must contain at least one number, one uppercase and lowercase letter, and at least 3 or more characters."
                   >
+
 
                     <button type="button" class="toggle-password" aria-label="Toggle password visibility">
                         👁️
