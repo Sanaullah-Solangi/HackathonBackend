@@ -272,7 +272,7 @@ const generateResetPasswordHTML = (nonce, email) => {
             console.log("Iam called")
               password.style.borderColor = "green";
               let response = await fetch(
-                "http://localhost:4002/api/user/update-password",
+                "hackathon-backend-olive.vercel.app/api/user/update-password",
                 {
                   method: "POST",
                   headers: {
