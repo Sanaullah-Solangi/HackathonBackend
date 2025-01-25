@@ -8,6 +8,7 @@ import {
   PASSWORD_NOT_PROVIDED,
   EMAIL_NOT_PROVIDED,
   USER_UPDATE_SUCCESS,
+  INVALID_CREDENTIALS,
 } from "../../../shared/constants/messages/users.js";
 import { updateUserByEmail } from "../db/index.js";
 import { passwordSchema } from "../schemas/uesrSchema.js";

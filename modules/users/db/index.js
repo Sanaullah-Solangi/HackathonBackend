@@ -80,7 +80,12 @@ export const updateUserByEmail = async (email, data) => {
     return updatedUser;
   } catch (error) {
     console.log("ERROR IN DB =>", error);
-    const response = sendUserResponse(StatusCodes.NOT_FOUND, null, true, error);
+    const response = sendUserResponse(
+      StatusCodes.NOT_FOUND,
+      null,
+      JSON.stringify(error.message),
+      USER_UPDATE_FAILED
+    );
     throw response;
   }
 };

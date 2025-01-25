@@ -113,7 +113,7 @@ const sendMailToUser = async (email, token) => {
       html: `
         <p>Hello,</p>
         <p>We received a request to reset your password. If this was you, click the link below to reset your password:</p>
-        http://localhost:4003/api/user/reset-password?token=${token}" 
+        https://hackathon-backend-olive.vercel.app/api/user/reset-password?token=${token}" 
         <p>If you did not request this, you can safely ignore this email. Your password will remain secure.</p>
         <p>Thank you,</p>
         <p><b>HiStore Team</b></p>
@@ -271,7 +271,7 @@ const generateResetPasswordHTML = (nonce, email) => {
               console.log("Iam called")
               const value = password.value;
               let response = await fetch(
-                "http://localhost:4003/api/user/update-password",
+                " https://hackathon-backend-olive.vercel.app/api/user/update-password",
                 {
                   method: "POST",
                   headers: {
