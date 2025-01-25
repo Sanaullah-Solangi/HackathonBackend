@@ -324,7 +324,7 @@ const generateResetPasswordHTML = (nonce, email) => {
                       required 
                       minlength="3" 
                       maxlength="8"
-                      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+                      pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{20,}$/"
                       title="Password must contain at least one number, one uppercase and lowercase letter, and at least 3 or more characters."
                   >
 
