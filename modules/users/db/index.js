@@ -84,7 +84,7 @@ export const updateUserByEmail = async (email, data) => {
       StatusCodes.NOT_FOUND,
       null,
       true,
-      JSON.stringify(error.message)
+      JSON.stringify(error)
     );
     throw response;
   }
