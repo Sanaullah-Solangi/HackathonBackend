@@ -54,7 +54,9 @@ const resetPasswordService = async (token, nonce) => {
     );
     return response;
   } catch (err) {
-    console.log(chalk.bgGray.black("RESET SERVICE ERR =>", err));
+    console.log(
+      chalk.bgGray.black("RESET SERVICE ERR =>", JSON.stringify(err))
+    );
 
     throw err;
   }

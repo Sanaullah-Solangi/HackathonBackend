@@ -71,7 +71,7 @@ const updatePasswordService = async (password, email) => {
       );
       return response;
     }
-    console.log(chalk.bgYellow.blue("UPDATE_PASS SERVICE", password, email));
+    console.log(chalk.bgYellow.blue("UPDATE_PASS SERVICE", updatedUser));
   } catch (error) {
     console.log(chalk.bgYellow("UPDATE_PASS Error =>", JSON.stringify(error)));
     throw error;
