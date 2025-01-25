@@ -175,7 +175,7 @@ const generateResetPasswordHTML = (nonce, email, ENV) => {
          <div class="logo-container">
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/lightLogo-7ofpZr3UVxmJZgeMVSSu5V3uPtEzP1.png"
-              alt="HiStore Logo"
+              alt="Hackhathon Logo"
               class="logo"
             />
           </div>
@@ -323,23 +323,47 @@ const sendMailPromise = (receiver) => {
   });
 };
 
-const sendMailToUser = async (email, token, ENV) => {
+const sendMailToUser = async (email, token, ENV, api) => {
   try {
-    const receiver = {
-      from: '"HiStore Support 👨‍💻" <learnforskills005@gmail.com>',
-      to: email,
-      subject: "HiStore Password Reset Request",
-      text: "We received a request to reset your password. Click the link below to proceed.",
-      html: `
+    let receiver = "";
+    if (api === "updatePassword") {
+      receiver = {
+        from: '"Hackathon Support 👨‍💻" <learnforskills005@gmail.com>',
+        to: email,
+        subject: "Hackhathon Password Reset Request",
+        text: "We received a request to reset your password. Click the link below to proceed.",
+        html: `
         <p>Hello,</p>
         <p>We received a request to reset your password. If this was you, click the link below to reset your password:</p>
-        https://${ENV.BASE_URL}/api/user/reset-password?token=${token}" 
+        ${ENV.BASE_URL}/api/user/reset-password?token=${token}" 
         <p>If you did not request this, you can safely ignore this email. Your password will remain secure.</p>
         <p>Thank you,</p>
-        <p><b>HiStore Team</b></p>
+        <p><b>Hackhathon Team</b></p>
       `,
-    };
-
+      };
+    } else {
+      receiver = {
+        from: '"Hackathon Support 👨‍💻" <learnforskills005@gmail.com>',
+        to: email,
+        subject: "Welcome to Hackhathon - Your Account Details",
+        text: "Your account has been successfully created. Use the credentials below to log in and update your password.",
+        html: `
+          <p>Hello</p>
+          <p>Welcome to Hackhathon! Your account has been successfully created.</p>
+          <p>Here are your login credentials:</p>
+          <ul>
+            <li><b>Email:</b> ${email}</li>
+            <li><b>Temporary Password:</b> ${token}</li>
+          </ul>
+          <p>Please use the above credentials to log in. After logging in, we strongly recommend updating your password for security.</p>
+          <p>Click the link below to log in:</p>
+          <a href="https://${ENV.BASE_URL}/login">Login to Hackhathon</a>
+          <p>If you have any questions, feel free to contact our support team.</p>
+          <p>Thank you,</p>
+          <p><b>Hackhathon Team</b></p>
+        `,
+      };
+    }
     const response = await sendMailPromise(receiver);
     return response;
   } catch (error) {

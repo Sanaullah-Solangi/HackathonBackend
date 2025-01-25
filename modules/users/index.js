@@ -27,3 +27,5 @@ router.post("/update-password", updatePasswordController);
 router.post("/delete-user", validateToken(["admin"]), deleteUserController);
 router.get("/confirmation-page", confirmationPageController);
 export default router;
+
+

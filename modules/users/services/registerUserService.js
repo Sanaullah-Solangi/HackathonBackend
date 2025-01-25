@@ -1,5 +1,6 @@
 import chalk from "chalk";
-import { StatusCodes } from "../../../shared/constants/index.js";
+import crypto from "crypto";
+import { StatusCodes, ENV } from "../../../shared/constants/index.js";
 import {
   USER_REGISTER_SUCCESS,
   INVALID_CREDENTIALS,
@@ -10,6 +11,7 @@ import {
   hashPassword,
   generateToken,
   sendUserResponse,
+  sendMailToUser,
 } from "../../../shared/helpers/index.js";
 import { getUserByEmail, createUser } from "../db/index.js";
 const createUserService = async (data) => {
@@ -37,13 +39,20 @@ const createUserService = async (data) => {
       );
       throw response;
     }
-    const hashedPassword = await hashPassword(value.password);
-    value.password = hashedPassword;
-    const newUser = await createUser(value);
-    const token = generateToken(newUser);
+    let password = crypto.randomBytes(16).toString("base64");
+    const mailRsponse = await sendMailToUser(
+      value.email,
+      password,
+      ENV,
+      "registerUser"
+    );
+    const hashedPassword = await hashPassword(password);
+    password = hashedPassword;
+    const newUser = await createUser({ ...value, password });
+
     return sendUserResponse(
       StatusCodes.CREATED,
-      { ...newUser, token },
+      { ...newUser },
       error,
       USER_REGISTER_SUCCESS
     );

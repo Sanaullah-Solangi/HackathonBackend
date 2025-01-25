@@ -8,10 +8,7 @@ const passwordSchema = joi.object({
     .string()
     .required()
     .min(8)
-    .max(20)
-    .pattern(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    )
+
     .messages({
       "string.pattern.base":
         "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
@@ -26,10 +23,7 @@ const loginUserSchema = joi.object({
     .string()
     .required()
     .min(8)
-    .max(20)
-    .pattern(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    )
+
     .messages({
       "string.pattern.base":
         "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
@@ -40,22 +34,24 @@ const loginUserSchema = joi.object({
 });
 
 const registerUserSchema = joi.object({
-  username: joi.string().required(),
-  email: joi.string().required().email(),
-  password: joi
+  username: joi.string().required().min(3).max(50).messages({
+    "string.empty": "Name is required.",
+    "string.min": "Name must be at least 3 characters long.",
+    "string.max": "Name cannot exceed 50 characters.",
+  }),
+  email: joi.string().required().email().messages({
+    "string.empty": "Email is required.",
+    "string.email": "Email must be a valid email address.",
+  }),
+  cnic: joi
     .string()
     .required()
-    .min(8)
-    .max(20)
-    .pattern(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    )
+    .length(13)
+    .pattern(/^\d{13}$/)
     .messages({
-      "string.pattern.base":
-        "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
-      "string.min": "Password must be at least 8 characters long.",
-      "string.max": "Password cannot exceed 20 characters.",
-      "string.empty": "Password is required.",
+      "string.empty": "CNIC is required.",
+      "string.length": "CNIC must be exactly 13 digits.",
+      "string.pattern.base": "CNIC must contain only numbers.",
     }),
 });
 
