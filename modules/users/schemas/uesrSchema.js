@@ -43,7 +43,6 @@ const updateProfileSchema = joi.object({
 
 export {
   emailSchema,
-  passwordSchema,
   loginUserSchema,
   registerUserSchema,
   updateProfileSchema,
