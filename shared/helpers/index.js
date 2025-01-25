@@ -1,11 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import {
-  ENV,
-  StatusCodes,
-  transporter,
-  joi,
-} from "../../shared/constants/index.js";
+import { ENV, StatusCodes, transporter } from "../../shared/constants/index.js";
 import {
   PASSWORD_RESET_REQUEST_FAILED,
   TOKEN_NOT_PROVIDED,
@@ -256,78 +251,53 @@ const generateResetPasswordHTML = (nonce, email) => {
     </style>
     `;
   const SCRIPT = `
-  import {joi} from "../../shared/constants/index.js";
-  const passwordSchema = joi.object({
-    password: joi
-      .string()
-      .required()
-      .pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
-      .messages({
-        password:
-          "Password must include at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long.",
-      }),
-  });
-  const password = document.querySelector("#password");
-  const email = document.querySelector("#email").innerHTML;
-  const updateBtn = document.querySelector("#updateBtn");
-  document
-    .querySelector(".toggle-password")
-    .addEventListener("click", function (event) {
-      event.preventDefault();
-      const type =
-        password.getAttribute("type") === "password" ? "text" : "password";
-      password.setAttribute("type", type);
+            const password = document.querySelector("#password");
+            const email = document.querySelector("#email").innerHTML;
+            const updateBtn = document.querySelector("#updateBtn");
+            document
+              .querySelector(".toggle-password")
+              .addEventListener("click", function (event) {
+                event.preventDefault();
+                const type =
+                  password.getAttribute("type") === "password" ? "text" : "password";
+                password.setAttribute("type", type);
 
-      // Icon toggle
-      this.textContent = type === "password" ? "👁️" : "🙈";
-    });
+                // Icon toggle
+                this.textContent = type === "password" ? "👁️" : "🙈";
+              });
 
-    const updatePassword = async () => {
-      try {
-        const pass = password.value;
-        let { value, error } = passwordSchema.validate(pass);
-        error = error?.details[0]?.message;
-        console.log("JOI ERROR IN HELPER INDEX", error);
-        if (error) {
-          const response = sendUserResponse(
-            400,
-            null,
-            error,
-            "Invalid credentials. Please try again."
-          );
-          throw response;
-        }
-        console.log("Iam called");
-        password.style.borderColor = "green";
-        let response = await fetch(
-          "hackathon-backend-olive.vercel.app/api/user/update-password",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ password: value, email }),
-          }
-        );
+            const updatePassword = async () => {
+              console.log("Iam called")
+              const value = password.value;
+              let response = await fetch(
+                "https://hackathon-backend-olive.vercel.app/api/user/update-password",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ password: value, email }),
+                }
+              );
 
-        if (response.ok) {
-          response = await response.json(); //
-          console.log("Password updated successfully!", response.data);
-          window.location.href = response.data;
-        } else {
-          console.log("Error updating password.");
-        }
-        password.value = "";
-      } catch (error) {
-        throw error;
-      }
-    };
-    document
-      .querySelector("#resetPasswordForm")
-      .addEventListener("submit", function (event) {
-        event.preventDefault();
-        updatePassword();
-      });
+              if (response.ok) {
+              response = await response.json(); //
+                console.log("Password updated successfully!", response.data);
+              password.style.borderColor = "green";
+                window.location.href = response.data; 
+                } else {
+                  console.log("Error updating password.");
+                }
+                password.value=""
+              };
+
+            document
+              .querySelector("#resetPasswordForm")
+              .addEventListener("submit", function (event) {
+                event.preventDefault();
+                updatePassword();
+              });
+
         `;
   const LOGO = `
          <div class="logo-container">
@@ -348,13 +318,16 @@ const generateResetPasswordHTML = (nonce, email) => {
                 <label for="password">New password</label>
                 <div class="password-input">
                     <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        required 
-                        minlength="8"
-                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                    >
+                      type="password" 
+                      id="password" 
+                      name="password" 
+                      required 
+                      minlength="3" 
+                      maxlength="8"
+                      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+                      title="Password must contain at least one number, one uppercase and lowercase letter, and at least 3 or more characters."
+                  >
+
                     <button type="button" class="toggle-password" aria-label="Toggle password visibility">
                         👁️
                     </button>

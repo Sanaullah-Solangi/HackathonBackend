@@ -4,10 +4,59 @@ import {
   sendUserResponse,
 } from "../../../shared/helpers/index.js";
 import { StatusCodes } from "../../../shared/constants/index.js";
-import { USER_UPDATE_SUCCESS } from "../../../shared/constants/messages/users.js";
+import {
+  PASSWORD_NOT_PROVIDED,
+  EMAIL_NOT_PROVIDED,
+  USER_UPDATE_SUCCESS,
+} from "../../../shared/constants/messages/users.js";
 import { updateUserByEmail } from "../db/index.js";
+import { passwordSchema } from "../schemas/uesrSchema.js";
 const updatePasswordService = async (password, email) => {
   try {
+    console.log(chalk.bgBlue.red("UPDATE PASS SERV EMAIL =>", email));
+    console.log(chalk.bgBlue.red("UPDATE PASS SERV PASSWORD =>", password));
+    if (!email) {
+      const response = sendUserResponse(
+        StatusCodes.BAD_REQUEST,
+        null,
+        true,
+        EMAIL_NOT_PROVIDED
+      );
+      console.log(
+        chalk.bgBlue.red("UPDATE PASS EMAIL ERROR =>", JSON.stringify(response))
+      );
+      throw response;
+    }
+    if (!password) {
+      const response = sendUserResponse(
+        StatusCodes.BAD_REQUEST,
+        null,
+        true,
+        PASSWORD_NOT_PROVIDED
+      );
+      console.log(
+        chalk.bgBlue.red(
+          "UPDATE PASS PASSWORD ERROR =>",
+          JSON.stringify(response)
+        )
+      );
+      throw response;
+    }
+    let { value, error } = passwordSchema.validate({ password });
+    error = error?.details[0]?.message;
+    if (error) {
+      const response = sendUserResponse(
+        StatusCodes.BAD_REQUEST,
+        null,
+        error,
+        INVALID_CREDENTIALS
+      );
+      console.log(
+        chalk.bgBlue.red("UPDATE PASS JOI ERROR =>", JSON.stringify(response))
+      );
+
+      throw response;
+    }
     const hashedPassword = await hashPassword(password);
     const updatedUser = await updateUserByEmail(
       { email },
@@ -16,7 +65,7 @@ const updatePasswordService = async (password, email) => {
     if (updatedUser) {
       const response = sendUserResponse(
         StatusCodes.OK,
-        "hackathon-backend-olive.vercel.app/confirmation-page.html",
+        "https://hackathon-backend-olive.vercel.app/confirmation-page.html",
         false,
         USER_UPDATE_SUCCESS
       );
@@ -24,7 +73,7 @@ const updatePasswordService = async (password, email) => {
     }
     console.log(chalk.bgYellow.blue("UPDATE_PASS SERVICE", password, email));
   } catch (error) {
-    console.log(chalk.bgYellow("UPDATE_PASS Error =>", error));
+    console.log(chalk.bgYellow("UPDATE_PASS Error =>", JSON.stringify(error)));
     throw error;
   }
 };

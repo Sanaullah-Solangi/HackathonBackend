@@ -35,6 +35,7 @@ const TOKEN_EXPIRED = "Token has expired. Please log in again.";
 const TOKEN_VERIFIED = "Token verified successfully.";
 // ✅ Password Forgot / Reset Messages
 const EMAIL_NOT_PROVIDED = "Email is required for password reset.";
+const PASSWORD_NOT_PROVIDED = "Password is required to update password.";
 const ID_NOT_PROVIDED = "Id is required to delete user.";
 const INVALID_EMAIL = "The provided email is invalid.";
 const PASSWORD_RESET_REQUEST_SUCCESS =
@@ -94,6 +95,7 @@ export {
   MONGO_DB_CONNECTION_FAILED,
   // ✅ Password Forgot / Reset Messages
   EMAIL_NOT_PROVIDED,
+  PASSWORD_NOT_PROVIDED,
   ID_NOT_PROVIDED,
   INVALID_EMAIL,
   PASSWORD_RESET_REQUEST_SUCCESS,
