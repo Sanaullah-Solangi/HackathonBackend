@@ -48,6 +48,7 @@ const createUserService = async (data) => {
     );
     const hashedPassword = await hashPassword(password);
     password = hashedPassword;
+    console.log("PASSWORD =>", password);
     const newUser = await createUser({ ...value, password });
 
     return sendUserResponse(

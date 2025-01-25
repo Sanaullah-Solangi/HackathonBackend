@@ -19,18 +19,13 @@ const passwordSchema = joi.object({
 });
 const loginUserSchema = joi.object({
   email: joi.string().required().email(),
-  password: joi
-    .string()
-    .required()
-    .min(8)
-
-    .messages({
-      "string.pattern.base":
-        "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
-      "string.min": "Password must be at least 8 characters long.",
-      "string.max": "Password cannot exceed 20 characters.",
-      "string.empty": "Password is required.",
-    }),
+  password: joi.string().required().min(8).messages({
+    "string.pattern.base":
+      "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
+    "string.min": "Password must be at least 8 characters long.",
+    "string.max": "Password cannot exceed 20 characters.",
+    "string.empty": "Password is required.",
+  }),
 });
 
 const registerUserSchema = joi.object({

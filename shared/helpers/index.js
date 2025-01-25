@@ -138,7 +138,7 @@ const generateResetPasswordHTML = (nonce, email, ENV) => {
               console.log("Iam called")
               const value = password.value;
               let response = await fetch(
-                "${ENV.BASE_URL}/api/user/update-password",
+                "https://hackathon-backend-olive.vercel.app/api/user/update-password",
                 {
                   method: "POST",
                   headers: {
@@ -152,7 +152,7 @@ const generateResetPasswordHTML = (nonce, email, ENV) => {
               response = await response.json(); //
                 console.log("Password updated successfully!", response.data);
               password.style.borderColor = "green";
-                window.location.href = "${ENV.BASE_URL}/api/user/confirmation-page"; 
+                window.location.href = "https://hackathon-backend-olive.vercel.app/api/user/confirmation-page"; 
                 } else {
                   console.log("Error updating password.");
                 }
@@ -335,7 +335,7 @@ const sendMailToUser = async (email, token, ENV, api) => {
         html: `
         <p>Hello,</p>
         <p>We received a request to reset your password. If this was you, click the link below to reset your password:</p>
-        ${ENV.BASE_URL}/api/user/reset-password?token=${token}" 
+        "https://hackathon-backend-olive.vercel.app/api/user/reset-password?token=${token}" 
         <p>If you did not request this, you can safely ignore this email. Your password will remain secure.</p>
         <p>Thank you,</p>
         <p><b>Hackhathon Team</b></p>
@@ -357,7 +357,7 @@ const sendMailToUser = async (email, token, ENV, api) => {
           </ul>
           <p>Please use the above credentials to log in. After logging in, we strongly recommend updating your password for security.</p>
           <p>Click the link below to log in:</p>
-          <a href="https://${ENV.BASE_URL}/login">Login to Hackhathon</a>
+          <a href="https://https://hackathon-backend-olive.vercel.app/login">Login to Hackhathon</a>
           <p>If you have any questions, feel free to contact our support team.</p>
           <p>Thank you,</p>
           <p><b>Hackhathon Team</b></p>

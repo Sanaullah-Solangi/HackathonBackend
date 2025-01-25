@@ -16,8 +16,11 @@ import { getUserByEmail, createUser } from "../db/index.js";
 const loginUserService = async (data) => {
   try {
     let { value, error } = loginUserSchema.validate(data);
+    console.log("VALUE =>", value);
     error = error?.details[0]?.message;
-    console.log(chalk.bgMagenta.black("JOI ERROR IN LOGIN", error));
+    console.log(
+      chalk.bgMagenta.black("JOI ERROR IN LOGIN", JSON.stringify(error))
+    );
     if (error) {
       const response = sendUserResponse(
         StatusCodes.BAD_REQUEST,
@@ -59,7 +62,9 @@ const loginUserService = async (data) => {
       throw response;
     }
     const token = generateToken(isUser);
-    console.log(chalk.bgMagenta.black("JWT ERROR IN LOGIN", token));
+    console.log(
+      chalk.bgMagenta.black("JWT ERROR IN LOGIN", JSON.stringify(token))
+    );
     const response = sendUserResponse(
       StatusCodes.OK,
       { ...isUser, token },
@@ -68,7 +73,7 @@ const loginUserService = async (data) => {
     );
     return response;
   } catch (error) {
-    console.log(chalk.bgRed.white("Error in Service:", error));
+    console.log(chalk.bgRed.white("Error in Service:", JSON.stringify(error)));
     throw error;
   }
 };

@@ -56,7 +56,12 @@ const forgotPasswordService = async (email) => {
     }
     const token = generateToken({ email });
 
-    const mailRsponse = await sendMailToUser(email, token, ENV);
+    const mailRsponse = await sendMailToUser(
+      email,
+      token,
+      ENV,
+      "updatePassword"
+    );
     const response = sendUserResponse(
       StatusCodes.OK,
       null,
