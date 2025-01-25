@@ -10,6 +10,7 @@ import updatePasswordController from "./controllers/updatePasswordController.js"
 import deleteUserController from "./controllers/deleteUserController.js";
 import getUserController from "./controllers/getUserController.js";
 import { validateToken } from "../../shared/helpers/index.js";
+import confirmationPageController from "./controllers/confirmationPageController.js";
 const router = express.Router();
 router.get("/", (req, res) => {
   res.send("Users Page Is Preset");
@@ -24,4 +25,5 @@ router.post("/register-user", registerUserController);
 router.get("/reset-password", resetPasswordController);
 router.post("/update-password", updatePasswordController);
 router.post("/delete-user", validateToken(["admin"]), deleteUserController);
+router.get("/confirmation-page", confirmationPageController);
 export default router;

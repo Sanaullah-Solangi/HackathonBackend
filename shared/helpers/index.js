@@ -276,7 +276,7 @@ const generateResetPasswordHTML = (nonce, email) => {
               response = await response.json(); //
                 console.log("Password updated successfully!", response.data);
               password.style.borderColor = "green";
-                window.location.href = response.data; 
+                window.location.href = "https://hackathon-backend-olive.vercel.app/api/user/confirmation-page"; 
                 } else {
                   console.log("Error updating password.");
                 }

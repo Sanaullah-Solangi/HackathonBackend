@@ -1,4 +1,5 @@
 import chalk from "chalk";
+
 import {
   hashPassword,
   sendUserResponse,
@@ -63,6 +64,7 @@ const updatePasswordService = async (password, email) => {
       { email },
       { password: hashedPassword }
     );
+
     if (updatedUser) {
       const response = sendUserResponse(
         StatusCodes.OK,
