@@ -4,7 +4,7 @@ import {
   hashPassword,
   sendUserResponse,
 } from "../../../shared/helpers/index.js";
-import { StatusCodes } from "../../../shared/constants/index.js";
+import { StatusCodes, ENV } from "../../../shared/constants/index.js";
 import {
   PASSWORD_NOT_PROVIDED,
   EMAIL_NOT_PROVIDED,
@@ -68,7 +68,7 @@ const updatePasswordService = async (password, email) => {
     if (updatedUser) {
       const response = sendUserResponse(
         StatusCodes.OK,
-        "https://hackathon-backend-olive.vercel.app/confirmation-page.html",
+        `https://${ENV.BASE_URL}/confirmation-page.html`,
         false,
         USER_UPDATE_SUCCESS
       );

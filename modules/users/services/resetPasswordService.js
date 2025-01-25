@@ -4,7 +4,7 @@ import {
   sendUserResponse,
   validateEmailByToken,
 } from "../../../shared/helpers/index.js";
-import { StatusCodes } from "../../../shared/constants/index.js";
+import { StatusCodes, ENV } from "../../../shared/constants/index.js";
 import {
   RESET_PASSWORD_PAGE_SUCCESS,
   INVALID_CREDENTIALS,
@@ -45,7 +45,7 @@ const resetPasswordService = async (token, nonce) => {
 
       throw response;
     }
-    const html = generateResetPasswordHTML(nonce, email);
+    const html = generateResetPasswordHTML(nonce, email, ENV);
     const response = sendUserResponse(
       StatusCodes.OK,
       html,

@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { StatusCodes } from "../../../shared/constants/index.js";
+import { StatusCodes, ENV } from "../../../shared/constants/index.js";
 import { getUserByEmail } from "../db/index.js";
 import {
   PASSWORD_RESET_REQUEST_SUCCESS,
@@ -56,7 +56,7 @@ const forgotPasswordService = async (email) => {
     }
     const token = generateToken({ email });
 
-    const mailRsponse = await sendMailToUser(email, token);
+    const mailRsponse = await sendMailToUser(email, token, ENV);
     const response = sendUserResponse(
       StatusCodes.OK,
       null,

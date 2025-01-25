@@ -8,132 +8,8 @@ import {
   USER_UNAUTHORIZED,
 } from "../constants/messages/users.js";
 import { getUserById } from "../../modules/users/db/index.js";
-const hashPassword = async (password) => {
-  const hash = await bcrypt.hash(password, Number(ENV.SALT_ROUND));
-  return hash;
-};
-const varifyPassword = async (password, hashedPassword) => {
-  const validation = await bcrypt.compare(password, hashedPassword);
-  return validation;
-};
 
-const generateToken = (userData) => {
-  var token = jwt.sign({ ...userData }, ENV.SECRET_KEY);
-  return token;
-};
-const validateEmailByToken = (token) => {
-  const decodedToken = jwt.verify(token, ENV.SECRET_KEY);
-  return decodedToken;
-};
-
-const validateToken = (allowedRoles) => {
-  return async (req, res, next) => {
-    try {
-      const bearerToken = req?.headers?.authorization;
-      if (!bearerToken) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json(
-            sendUserResponse(
-              StatusCodes.BAD_REQUEST,
-              null,
-              true,
-              TOKEN_NOT_PROVIDED
-            )
-          );
-      }
-
-      const token = bearerToken.split(" ")[1];
-      const decodedToken = jwt.verify(token, ENV.SECRET_KEY);
-      if (!decodedToken) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json(
-            sendUserResponse(
-              StatusCodes.UNAUTHORIZED,
-              null,
-              true,
-              USER_UNAUTHORIZED
-            )
-          );
-      }
-
-      const user = await getUserById(decodedToken?._id);
-      if (!user) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .json(
-            sendUserResponse(StatusCodes.NOT_FOUND, null, true, USER_NOT_FOUND)
-          );
-      }
-
-      if (!allowedRoles.includes(user.role)) {
-        return res.status(403).json({ message: "Access denied!" });
-      }
-      req.user = user;
-      next(); // Proceed to the next middleware or route handler
-    } catch (error) {
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json(
-          sendUserResponse(
-            StatusCodes.INTERNAL_SERVER_ERROR,
-            null,
-            true,
-            error.message
-          )
-        );
-    }
-  };
-};
-
-const sendUserResponse = (status, data = null, error = false, message) => {
-  return { status, data, error, message };
-};
-
-const sendMailPromise = (receiver) => {
-  return new Promise((resolve, reject) => {
-    transporter.sendMail(receiver, (err, info) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(info);
-      }
-    });
-  });
-};
-
-const sendMailToUser = async (email, token) => {
-  try {
-    const receiver = {
-      from: '"HiStore Support 👨‍💻" <learnforskills005@gmail.com>',
-      to: email,
-      subject: "HiStore Password Reset Request",
-      text: "We received a request to reset your password. Click the link below to proceed.",
-      html: `
-        <p>Hello,</p>
-        <p>We received a request to reset your password. If this was you, click the link below to reset your password:</p>
-        https://hackathon-backend-olive.vercel.app/api/user/reset-password?token=${token}" 
-        <p>If you did not request this, you can safely ignore this email. Your password will remain secure.</p>
-        <p>Thank you,</p>
-        <p><b>HiStore Team</b></p>
-      `,
-    };
-
-    const response = await sendMailPromise(receiver);
-    return response;
-  } catch (error) {
-    const response = sendUserResponse(
-      StatusCodes.INTERNAL_SERVER_ERROR,
-      error,
-      true,
-      PASSWORD_RESET_REQUEST_FAILED
-    );
-    throw response;
-  }
-};
-
-const generateResetPasswordHTML = (nonce, email) => {
+const generateResetPasswordHTML = (nonce, email, ENV) => {
   const CSS = `
 <style>
       * {
@@ -262,7 +138,7 @@ const generateResetPasswordHTML = (nonce, email) => {
               console.log("Iam called")
               const value = password.value;
               let response = await fetch(
-                "https://hackathon-backend-olive.vercel.app/api/user/update-password",
+                "${ENV.BASE_URL}/api/user/update-password",
                 {
                   method: "POST",
                   headers: {
@@ -276,7 +152,7 @@ const generateResetPasswordHTML = (nonce, email) => {
               response = await response.json(); //
                 console.log("Password updated successfully!", response.data);
               password.style.borderColor = "green";
-                window.location.href = "https://hackathon-backend-olive.vercel.app/api/user/confirmation-page"; 
+                window.location.href = "${ENV.BASE_URL}/api/user/confirmation-page"; 
                 } else {
                   console.log("Error updating password.");
                 }
@@ -351,6 +227,130 @@ const generateResetPasswordHTML = (nonce, email) => {
 </body>
 </html>
     `;
+};
+const hashPassword = async (password) => {
+  const hash = await bcrypt.hash(password, Number(ENV.SALT_ROUND));
+  return hash;
+};
+const varifyPassword = async (password, hashedPassword) => {
+  const validation = await bcrypt.compare(password, hashedPassword);
+  return validation;
+};
+
+const generateToken = (userData) => {
+  var token = jwt.sign({ ...userData }, ENV.SECRET_KEY);
+  return token;
+};
+const validateEmailByToken = (token) => {
+  const decodedToken = jwt.verify(token, ENV.SECRET_KEY);
+  return decodedToken;
+};
+
+const validateToken = (allowedRoles) => {
+  return async (req, res, next) => {
+    try {
+      const bearerToken = req?.headers?.authorization;
+      if (!bearerToken) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json(
+            sendUserResponse(
+              StatusCodes.BAD_REQUEST,
+              null,
+              true,
+              TOKEN_NOT_PROVIDED
+            )
+          );
+      }
+
+      const token = bearerToken.split(" ")[1];
+      const decodedToken = jwt.verify(token, ENV.SECRET_KEY);
+      if (!decodedToken) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json(
+            sendUserResponse(
+              StatusCodes.UNAUTHORIZED,
+              null,
+              true,
+              USER_UNAUTHORIZED
+            )
+          );
+      }
+
+      const user = await getUserById(decodedToken?._id);
+      if (!user) {
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json(
+            sendUserResponse(StatusCodes.NOT_FOUND, null, true, USER_NOT_FOUND)
+          );
+      }
+
+      if (!allowedRoles.includes(user.role)) {
+        return res.status(403).json({ message: "Access denied!" });
+      }
+      req.user = user;
+      next(); // Proceed to the next middleware or route handler
+    } catch (error) {
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json(
+          sendUserResponse(
+            StatusCodes.INTERNAL_SERVER_ERROR,
+            null,
+            true,
+            error.message
+          )
+        );
+    }
+  };
+};
+
+const sendUserResponse = (status, data = null, error = false, message) => {
+  return { status, data, error, message };
+};
+
+const sendMailPromise = (receiver) => {
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(receiver, (err, info) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(info);
+      }
+    });
+  });
+};
+
+const sendMailToUser = async (email, token, ENV) => {
+  try {
+    const receiver = {
+      from: '"HiStore Support 👨‍💻" <learnforskills005@gmail.com>',
+      to: email,
+      subject: "HiStore Password Reset Request",
+      text: "We received a request to reset your password. Click the link below to proceed.",
+      html: `
+        <p>Hello,</p>
+        <p>We received a request to reset your password. If this was you, click the link below to reset your password:</p>
+        https://${ENV.BASE_URL}/api/user/reset-password?token=${token}" 
+        <p>If you did not request this, you can safely ignore this email. Your password will remain secure.</p>
+        <p>Thank you,</p>
+        <p><b>HiStore Team</b></p>
+      `,
+    };
+
+    const response = await sendMailPromise(receiver);
+    return response;
+  } catch (error) {
+    const response = sendUserResponse(
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      error,
+      true,
+      PASSWORD_RESET_REQUEST_FAILED
+    );
+    throw response;
+  }
 };
 
 export {
