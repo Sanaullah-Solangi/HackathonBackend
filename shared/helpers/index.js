@@ -162,16 +162,6 @@ const generateResetPasswordHTML = (nonce, email) => {
         max-width: 400px;
       }
 
-      .logo-container {
-        text-align: center;
-        margin-bottom: 32px;
-      }
-
-      .logo {
-        height: 40px;
-        width: auto;
-      }
-
       h1 {
         font-size: 24px;
         margin-bottom: 24px;
@@ -348,10 +338,7 @@ const generateResetPasswordHTML = (nonce, email) => {
 </head>
 <body>
     <div class="card">
-        <div class="logo-container">
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/lightLogo-7ofpZr3UVxmJZgeMVSSu5V3uPtEzP1.png" alt="HiStore Logo" class="logo">
-        </div>
-       ${HEADING}
+      ${HEADING}
       ${FORM}
     </div>
 
