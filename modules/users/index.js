@@ -20,12 +20,14 @@ router.post("/forgot-password", forgotPasswordController);
 router.get("/get-users", validateToken(["admin"]), getUsersController);
 router.get("/get-user", validateToken(["admin"]), getUserController);
 router.post("/login-user", loginUserController);
-router.put("/update-profile", updateProfileController);
+router.put(
+  "/update-profile",
+  validateToken(["admin", "user"]),
+  updateProfileController
+);
 router.post("/register-user", registerUserController);
 router.get("/reset-password", resetPasswordController);
 router.post("/update-password", updatePasswordController);
 router.post("/delete-user", validateToken(["admin"]), deleteUserController);
 router.get("/confirmation-page", confirmationPageController);
 export default router;
-
-
