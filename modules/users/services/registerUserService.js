@@ -18,7 +18,8 @@ const createUserService = async (data) => {
   try {
     let { value, error } = registerUserSchema.validate(data);
     error = error?.details[0]?.message;
-    console.log(error);
+    console.log("JOI IN REGISTERATION =>", JSON.stringify(error));
+
     if (error) {
       const response = sendUserResponse(
         StatusCodes.BAD_REQUEST,
@@ -37,6 +38,7 @@ const createUserService = async (data) => {
         true,
         USER_ALREADY_EXISTS
       );
+      console.log("DB IN REGISTERATION =>", JSON.stringify(response));
       throw response;
     }
     let password = crypto.randomBytes(16).toString("base64");
@@ -50,7 +52,6 @@ const createUserService = async (data) => {
     password = hashedPassword;
     console.log("PASSWORD =>", password);
     const newUser = await createUser({ ...value, password });
-
     return sendUserResponse(
       StatusCodes.CREATED,
       { ...newUser },
@@ -58,7 +59,7 @@ const createUserService = async (data) => {
       USER_REGISTER_SUCCESS
     );
   } catch (error) {
-    console.log(chalk.bgRed.white("Error in Service:", error));
+    console.log(chalk.bgRed.white("Error in Registration Service:", error));
     throw error;
   }
 };
